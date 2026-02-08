@@ -59,6 +59,7 @@ class Text extends Component {
       <div className="hi-wrapper">
         <h1>HI</h1>
         <h2>sanskar</h2>
+        
         {this.props.richText ? this.richTextContent : this.textContent}
       </div>
     );

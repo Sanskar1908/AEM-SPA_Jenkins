@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org" 
+          xmlns:cq="http://www.day.com" 
+          xmlns:jcr="http://www.jcp.org"
+    jcr:primaryType="cq:Component"
+    jcr:title="RDR2 Hero (Video/Image)"
+    componentGroup="RDR SPA"/>
