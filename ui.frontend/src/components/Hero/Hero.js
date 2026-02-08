@@ -1,14 +1,23 @@
 import React from "react";
 import { MapTo } from "@adobe/aem-react-editable-components";
+
 require("./Hero.scss");
-const HeroEditCofig = {
+
+// 1. Define the EditConfig (This fixes the HeroEditConfig error)
+const HeroEditConfig = {
   emptyLabel: "RDR2 Hero: Configure Image/Video and Text",
   isEmpty: props => !props.imagePath && !props.videoPath && !props.title,
 };
+
 const Hero = props => {
+  // 2. Destructure the props (This fixes the 'not defined' errors)
+  const title = props.title;
+  const subtitle = props.subtitle;
+  const imagePath = props.imagePath;
+  const videoPath = props.videoPath;
+
   return (
     <div className="rdr-hero">
-      {/* Background Layer */}
       <div className="rdr-hero__background">
         {videoPath ? (
           <video autoPlay muted loop playsInline className="rdr-hero__video">
@@ -20,11 +29,9 @@ const Hero = props => {
             style={{ backgroundImage: `url(${imagePath})` }}
           />
         )}
-        {/* Red Vignette Overlay for RDR2 Vibe */}
         <div className="rdr-hero__overlay" />
       </div>
 
-      {/* Content Layer (Bottom Left) */}
       <div className="rdr-hero__content">
         {subtitle && <h2 className="rdr-hero__subtitle">{subtitle}</h2>}
         {title && <h1 className="rdr-hero__title">{title}</h1>}
@@ -32,4 +39,6 @@ const Hero = props => {
     </div>
   );
 };
+
+// 3. Ensure the export uses the config
 export default MapTo("rdr-spa/components/hero")(Hero, HeroEditConfig);
