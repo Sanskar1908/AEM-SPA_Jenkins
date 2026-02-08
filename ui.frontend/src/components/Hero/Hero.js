@@ -41,4 +41,4 @@ const Hero = props => {
 };
 
 // 3. Ensure the export uses the config
-export default MapTo("rdr-spa/components/hero")(Hero, HeroEditConfig);
+export default MapTo("wknd-spa-react/components/hero")(Hero, HeroEditConfig);
