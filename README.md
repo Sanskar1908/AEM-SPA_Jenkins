@@ -1,21 +1,38 @@
 # AEM Guides - WKND SPA Project
+# WKND SPA React - AEM Modernized Build
 
-This is the code companion for a series of tutorials designed for developers new to the **SPA Editor** feature in Adobe Experience Manager (AEM). There are two parallel versions of the tutorial:
+This project is a customized version of the AEM WKND SPA React guide, optimized for **Apple Silicon (M1/M2/M3)** and **Node 18+**.
 
-* [Create your first Angular SPA in AEM](https://docs-stg.corp.adobe.com/content/help/en/experience-manager-learn/tutorials/develop-spa-angular/overview.html)
-* [Create your first React SPA in AEM](https://docs.adobe.com/content/help/en/experience-manager-learn/tutorials/develop-spa-react/overview.html)
+## System Requirements
+- **Node.js**: v18.20.8
+- **NPM**: 10.8.2
+- **Java**: 11
+- **Maven**: 3.9.x
+- **OS**: macOS (ARM64)
 
-The starter and solution branches in this repository correspond to **Angular** and **React** versions of the tutorial.
+## Critical Fixes for Modern Environments
 
-## Modules
+### 1. OpenSSL Legacy Support
+Node 18+ uses OpenSSL 3.0 which is incompatible with older Webpack hashing. 
+- **Fix**: Added `NODE_OPTIONS=--openssl-legacy-provider` to `ui.frontend/pom.xml` and Jenkins environment.
 
-The main parts of the project are:
+### 2. Sass Migration
+Original `node-sass` fails on ARM64 Macs.
+- **Fix**: Migrated to `sass` (Dart Sass) in `ui.frontend/package.json`.
 
-* **core**: Java bundle containing all core functionality like OSGi services, listeners or schedulers, as well as component-related Java code such as servlets or request filters.
-* **ui.apps**: contains the /apps (and /etc) parts of the project, ie JS&CSS clientlibs, components, templates and runmode specific configs
-* **ui.content**: contains sample content using the components from the ui.apps
-* **ui.tests**: Java bundle containing JUnit tests that are executed server-side. This bundle is not to be deployed onto production.
-* **ui.frontend**: an optional dedicated front-end build mechanism. Depending on the branch this will be either the **React** or **Angular** source code.
+### 3. NPM Dependency Resolution
+NPM 10+ is strict about peer dependencies.
+- **Fix**: Configured Maven to run `npm install --legacy-peer-deps`.
+
+### 4. Clientlib Array Fix
+Updated `ui.frontend/clientlib.config.js` to wrap library configurations in arrays `[ ]` to satisfy modern AEM Clientlib Generator requirements.
+
+## CI/CD Pipeline (Jenkins)
+A local Jenkins pipeline is configured to automate deployments to AEM:
+- **Build Trigger**: `git commit` via a local `post-commit` hook.
+- **Goals**: `mvn clean install -PautoInstallSinglePackage -DskipTests`
+- **Hook Location**: `.git/hooks/post-commit`
+
 
 ## How to build
 
